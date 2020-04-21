@@ -8,8 +8,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *,
-  *:before,
-  *:after {
+  *::before,
+  *::after {
     box-sizing: inherit;
   }
 
@@ -27,21 +27,29 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: ${theme.primary.main};
+    /* Source: https://www.heropatterns.com/ */
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
+  h1, h2, h3, h4, h5, h6,
   p {
     margin-block-start: 0;
     margin-block-end: 0;
+  }
+
+  h1 { font-size: 4rem; }
+  h2 { font-size: 3.2rem; }
+  h3 { font-size: 2.8rem; }
+  h4 { font-size: 2.4rem; }
+  h5 { font-size: 2rem; }
+  h6 { font-size: 1.6rem; }
+
+  p + p {
+    margin-top: 0.8rem;
   }
 
   a {

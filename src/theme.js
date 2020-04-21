@@ -7,7 +7,7 @@ const theme = {
     main: '#eeebf0',
     dark: '#e4ddee',
     darker: '#bfb7c8',
-    darkest: '#392b48',
+    darkest: '#2c3e50',
   },
   primary: {
     main: '#8e44ad',
@@ -34,7 +34,7 @@ const theme = {
   space: '1rem',
 
   // Text
-  fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
+  fontFamily: `"Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
 
   // Transitions
   durations: {
