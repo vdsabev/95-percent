@@ -30,6 +30,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.4rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: ${theme.primary.main};
   }
 
   h1,
@@ -60,6 +61,12 @@ const GlobalStyle = createGlobalStyle`
 
   svg {
     fill: currentColor;
+  }
+
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
   }
 `;
 
