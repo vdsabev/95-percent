@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import Question from '../Questions/Question';
 import theme from '../theme';
 
 const questions = JSON.parse(process.env.REACT_APP_QUESTIONS);
+const defaultRanges = new Array(questions.length).fill({});
 
 const App = () => {
-  const [ranges, setRanges] = useState([]);
-  const setRange = (key, index) => (e) => {
+  const [ranges, setRanges] = useState(defaultRanges);
+  const setRange = (index) => (key) => (e) => {
     const { value } = e.target;
     setRanges((ranges) => [
       ...ranges.slice(0, index),
@@ -34,7 +36,7 @@ const App = () => {
   };
 
   const resetAnswers = () => {
-    setRanges([]);
+    setRanges(defaultRanges);
     setCorrectAnswers(null);
   };
 
@@ -43,20 +45,14 @@ const App = () => {
       <form onSubmit={checkAnswers}>
         <fieldset disabled={correctAnswers != null}>
           {questions.map((question, questionIndex) => (
-            <QuestionContainer key={question.q}>
-              <QuestionTitle>{question.q}</QuestionTitle>
-              At least&nbsp;
-              <RangeInput
-                value={ranges[questionIndex]?.min || ''}
-                onChange={setRange('min', questionIndex)}
-                autoFocus={questionIndex === 0}
-              />
-              &nbsp;but no more than&nbsp;
-              <RangeInput
-                value={ranges[questionIndex]?.max || ''}
-                onChange={setRange('max', questionIndex)}
-              />
-            </QuestionContainer>
+            <Question
+              key={question.q}
+              question={question.q}
+              min={ranges[questionIndex].min}
+              max={ranges[questionIndex].max}
+              setRange={setRange(questionIndex)}
+              isFirst={questionIndex === 0}
+            />
           ))}
 
           {correctAnswers == null && (
@@ -91,18 +87,6 @@ const AppContainer = styled.div`
   background: ${theme.neutral.lightest};
   padding: 4rem;
 `;
-
-const QuestionContainer = styled.section`
-  & + & {
-    margin-top: 2rem;
-  }
-`;
-
-const QuestionTitle = styled.h3`
-  margin-bottom: 1rem;
-`;
-
-const RangeInput = styled.input.attrs({ type: 'number', required: true })``;
 
 const Button = styled.button`
   margin-top: 1rem;
