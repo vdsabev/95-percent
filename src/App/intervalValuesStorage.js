@@ -1,6 +1,6 @@
-const storageKey = 'ranges';
+const storageKey = 'intervals';
 
-const rangesStorage = {
+const intervalValuesStorage = {
   get() {
     return JSON.parse(localStorage.getItem(storageKey) || 'null');
   },
@@ -12,4 +12,4 @@ const rangesStorage = {
   },
 };
 
-export default rangesStorage;
+export default intervalValuesStorage;

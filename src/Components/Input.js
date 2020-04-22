@@ -9,7 +9,7 @@ const Input = styled.input`
   font-family: ${theme.fontFamily};
 
   &::placeholder {
-    font-size: 1.2rem;
+    font-size: 0.66em;
   }
 `;
 

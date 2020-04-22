@@ -3,21 +3,21 @@ import styled from 'styled-components';
 
 import Input from '../Components/Input';
 
-const Question = ({ isFirst, question, min, max, setRange, ...props }) => {
+const Question = ({ isFirst, question, min, max, setIntervalValue, ...props }) => {
   return (
     <Container {...props}>
       <Title>{question}</Title>
       <AnswerContainer>
         95% confidence interval:
-        <RangeInput
+        <IntervalInput
           value={min ?? ''}
-          onChange={setRange('min')}
+          onChange={setIntervalValue('min')}
           placeholder="minimum"
           autoFocus={isFirst}
         />
-        <RangeInput
+        <IntervalInput
           value={max ?? ''}
-          onChange={setRange('max')}
+          onChange={setIntervalValue('max')}
           placeholder="maximum"
         />
       </AnswerContainer>
@@ -26,24 +26,24 @@ const Question = ({ isFirst, question, min, max, setRange, ...props }) => {
 };
 
 const Container = styled.section`
-  margin-top: 4rem;
+  margin: 8rem 0;
 `;
 
 const Title = styled.h5`
-  margin: 2em 0 0.8em 0;
+  margin: 1em 0;
 `;
 
 const AnswerContainer = styled.div`
   display: flex;
   align-items: baseline;
-  flex-flow: column;
+  flex-direction: column;
 
   @media (min-width: 50em) {
-    flex-flow: row;
+    flex-direction: row;
   }
 `;
 
-const RangeInput = styled(Input).attrs({ type: 'number', required: true })`
+const IntervalInput = styled(Input).attrs({ type: 'number', required: true })`
   flex: 1;
   width: 100%;
   margin: 2rem 0 0 0;

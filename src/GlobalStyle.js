@@ -49,13 +49,12 @@ const GlobalStyle = createGlobalStyle`
   h6 { font-size: 1.6rem; }
 
   p + p {
-    margin-top: 0.8rem;
+    margin-top: 1em;
   }
 
   a {
     display: inline-block;
     color: inherit;
-    text-decoration: none;
   }
 
   /* https://stackoverflow.com/questions/11243337/a-taller-than-its-img-child */

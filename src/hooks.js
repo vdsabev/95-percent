@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-export const usePromise = (fn, initialState) => {
-  const [state, setState] = useState(initialState);
+export const usePromise = (fn) => {
+  const [state, setState] = useState(null);
   useEffect(() => {
     let subscribed = true;
     fn().then((data) => {

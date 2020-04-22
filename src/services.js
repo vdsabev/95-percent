@@ -1,21 +1,39 @@
-import tabletop from 'tabletop';
+import Papa from 'papaparse';
+import { questionsSpreadsheetUrl } from './settings';
 
-const spreadsheetUrl = process.env.REACT_APP_GOOGLE_SPREADSHEET_URL;
-const timestampColumnKey = 'Timestamp';
+/** @typedef {{ id: string, question: string, answer: number }} Question */
 
-const services = {
-  async getAnswers() {
-    const data = await tabletop.init({
-      key: spreadsheetUrl,
-      simpleSheet: true,
-    });
-
-    return data.map((answers) =>
-      Object.keys(answers)
-        .filter((key) => key !== timestampColumnKey)
-        .reduce((results, key) => [...results, { q: key, a: answers[key] }], [])
-    );
-  },
+/** @returns {Promise<Question[]>} */
+export const getQuestions = () => {
+  return getCsvByUrl(questionsSpreadsheetUrl).then((questions) =>
+    questions.map((question) => ({
+      ...question,
+      id: question.question
+        .toLowerCase()
+        .split(/\s+/)
+        .join('_')
+        .replace(/[\W,]/g, ''),
+    }))
+  );
 };
 
-export default services;
+const getCsvByUrl = (url, options) => {
+  return new Promise((resolve, reject) => {
+    Papa.parse(url, {
+      download: true,
+      dynamicTyping: true,
+      header: true,
+      transformHeader(header) {
+        return header.toLowerCase().split(/\s+/).join('_');
+      },
+      complete(response) {
+        if (response.errors.length > 0) {
+          reject(response.errors);
+        } else {
+          resolve(response.data);
+        }
+      },
+      ...options,
+    });
+  });
+};

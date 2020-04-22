@@ -3,18 +3,18 @@
 </h1>
 
 <p align="center">
-  Do you understand what a "95% confidence interval" means?
+  Original idea: https://peterattiamd.com/confidence/
 </p>
 
-Credit and more details: https://peterattiamd.com/confidence/
-
 ## Setup
-1. Create a Google Form and export results to a spreadsheet.
-2. Publish spreadsheet to the web following the instructions here: https://github.com/jsoma/tabletop#like-how-easy
-3. Set up required environment variables by creating a `.env` file locally or configuring the settings in your hosting provider:
+1. Create a Google Form with fields "Question" and "Answer", then export results to a spreadsheet.
+2. Publish spreadsheet as CSV following the instructions here: https://github.com/jsoma/tabletop#like-how-easy
+3. Set up required environment variables by creating a `.env` file locally or configuring your hosting provider:
 ```
-REACT_APP_GOOGLE_SPREADSHEET_URL=https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_URL_HERE/edit?usp=sharing
-REACT_APP_QUESTIONS=[{"q":"Q1","a":1},{"q":"Q2","a":2},{"q":"Q3","a":3},{"q":"Q4","a":4},{"q":"Q5","a":5}]
+REACT_APP_GOOGLE_SPREADSHEET_URL=https://docs.google.com/spreadsheets/d/e/YOUR_SPREADSHEET_URL_HERE/pub?gid=YOUR_SPREADSHEET_URL_HERE&single=true&output=csv
+REACT_APP_CONTRIBUTE_FORM_URL=https://docs.google.com/forms/d/e/YOUR_FORM_URL_HERE/viewform
+REACT_APP_NUMBER_OF_QUESTIONS_IN_BATCH=20
+REACT_APP_TARGET_CONFIDENCE=95
 ```
 
 # Create React App

@@ -1,27 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import { fadeIn, slideInFromTop, slideInFromBottom } from '../animations';
+import { usePromise } from '../hooks';
+import { getQuestions } from '../services';
 import theme from '../theme';
 import BaseButton from '../Components/Button';
 import ExternalLink from '../Components/ExternalLink';
-import Question from './Question';
-import rangesStorage from './rangesStorage';
+import {
+  contributeFormUrl,
+  numberOfQuestionsInBatch,
+  targetConfidencePercent,
+} from '../settings';
 
-const questions = JSON.parse(process.env.REACT_APP_QUESTIONS);
-const defaultRanges = new Array(questions.length).fill({});
-const targetConfidencePercent = parseFloat(
-  process.env.REACT_APP_TARGET_CONFIDENCE
-);
+import headerImageUrl from './header.svg';
+import Question from './Question';
+import intervalValuesStorage from './intervalValuesStorage';
+
+const defaultIntervalValues = {};
 
 const App = () => {
-  const [ranges, setRanges] = useState(rangesStorage.get() || defaultRanges);
-  const setRange = (index) => (key) => (e) => {
+  const questions = useRandomQuestions(numberOfQuestionsInBatch);
+
+  const [intervalValues, setIntervalValues] = useState(
+    intervalValuesStorage.get() || defaultIntervalValues
+  );
+  const setIntervalValue = (key) => (field) => (e) => {
     const { value } = e.target;
-    setRanges((ranges) => [
-      ...ranges.slice(0, index),
-      { ...ranges[index], [key]: value },
-      ...ranges.slice(index + 1),
-    ]);
+    setIntervalValues((intervalValues) => ({
+      ...intervalValues,
+      [key]: { ...intervalValues[key], [field]: value },
+    }));
   };
 
   const [correctAnswers, setCorrectAnswers] = useState(null);
@@ -31,61 +40,62 @@ const App = () => {
 
   const checkAnswers = (e) => {
     e.preventDefault();
-    const correctAnswers = questions.reduce(
-      (correctAnswers, questions, questionIndex) => {
-        const range = ranges[questionIndex];
-        const answerIsCorrect =
-          range.min <= questions.a && questions.a <= range.max;
-        return correctAnswers + (answerIsCorrect ? 1 : 0);
-      },
-      0
-    );
+    const correctAnswers = questions.reduce((correctAnswers, question) => {
+      const intervalValue = intervalValues[question.id];
+      const answerIsWithinInterval =
+        intervalValue.min <= question.answer &&
+        question.answer <= intervalValue.max;
+      return correctAnswers + (answerIsWithinInterval ? 1 : 0);
+    }, 0);
     setCorrectAnswers(correctAnswers);
   };
 
   const resetAnswers = () => {
-    setRanges(defaultRanges);
+    setIntervalValues(defaultIntervalValues);
     setCorrectAnswers(null);
   };
 
   useEffect(() => {
-    if (ranges === defaultRanges) {
-      rangesStorage.clear();
+    if (intervalValues === defaultIntervalValues) {
+      intervalValuesStorage.clear();
     } else {
-      rangesStorage.set(ranges);
+      intervalValuesStorage.set(intervalValues);
     }
-  }, [ranges]);
+  }, [intervalValues]);
 
   return (
     <>
       <AppContainer>
-        <Image src="background.svg" alt="" aria-hidden />
-
+        <Image src={headerImageUrl} alt="" aria-hidden />
         <Title>{targetConfidencePercent}% Confidence Interval</Title>
 
         <p>
-          For each of the following questions, provide a range that you are{' '}
+          How accurately can you estimate your own confidence about unfamiliar
+          facts and figures?
+        </p>
+
+        <p>
+          For each of the following questions (randomly sampled from our
+          collection), provide an interval that you are{' '}
           <b>{targetConfidencePercent}% confident</b> includes the correct
           answer.
         </p>
 
         <form onSubmit={checkAnswers}>
-          <fieldset disabled={correctAnswers != null}>
-            {questions.map((question, questionIndex) => (
-              <Question
-                key={question.q}
-                question={question.q}
-                min={ranges[questionIndex].min}
-                max={ranges[questionIndex].max}
-                setRange={setRange(questionIndex)}
-                isFirst={questionIndex === 0}
-              />
-            ))}
+          {questions.map((question, questionIndex) => (
+            <Question
+              key={question.question}
+              question={`Q${questionIndex + 1}: ${question.question}`}
+              min={intervalValues[question.id]?.min}
+              max={intervalValues[question.id]?.max}
+              setIntervalValue={setIntervalValue(question.id)}
+              isFirst={questionIndex === 0}
+            />
+          ))}
 
-            {correctAnswers == null && (
-              <Button type="submit">Check Answers</Button>
-            )}
-          </fieldset>
+          {correctAnswers == null && (
+            <Button type="submit">Check Answers</Button>
+          )}
         </form>
 
         {correctAnswers != null && (
@@ -96,49 +106,58 @@ const App = () => {
               <b>
                 {correctAnswers} out of {questions.length}
               </b>{' '}
-              answers are within the ranges you specified. This amounts to{' '}
-              <b>{confidencePercent}% confidence</b>.
+              answers are within the intervals you specified. This amounts to{' '}
+              <b>{confidencePercent}%</b>.
             </p>
 
             <p>
               {confidencePercent < targetConfidencePercent ? (
                 <span>
-                  You likely did not use a large enough range to provide{' '}
-                  <b>{targetConfidencePercent}% confidence</b>.
+                  The goal is to get exactly <b>{targetConfidencePercent}%</b>{' '}
+                  right - you were likely <b>overly confident</b> and did not
+                  use large enough intervals.
                 </span>
               ) : confidencePercent > targetConfidencePercent ? (
-                `You likely created too large a confidence interval.`
+                <span>
+                  The goal is to get exactly <b>{targetConfidencePercent}%</b>{' '}
+                  right - you were likely <b>not confident enough</b> and used
+                  too large intervals.
+                </span>
               ) : (
-                `You got it just right!`
+                <span>Wow, you got it just right!</span>
               )}
             </p>
+
+            <p>Want another go?</p>
 
             <Button type="button" onClick={resetAnswers} autoFocus>
               Reset Answers
             </Button>
           </>
         )}
+
+        <Contribute>
+          Want to contribute?{' '}
+          <ExternalLink href={contributeFormUrl}>
+            Submit your own question here
+          </ExternalLink>
+        </Contribute>
       </AppContainer>
 
       <Footer>
-        <div>
-          credit:&nbsp;
+        <FooterItem>
+          original idea:{' '}
           <ExternalLink href="https://peterattiamd.com/confidence">
             peterattiamd.com/confidence
           </ExternalLink>
-        </div>
+        </FooterItem>
 
-        <div>
-          © {new Date().getFullYear()}&nbsp;
-          <ExternalLink href="https://vdsabev.com">vlad sabev</ExternalLink>
-        </div>
-
-        <div>
-          source:&nbsp;
+        <FooterItem>
+          code:{' '}
           <ExternalLink href="https://github.com/vdsabev/95-percent">
             github.com/vdsabev/95-percent
           </ExternalLink>
-        </div>
+        </FooterItem>
       </Footer>
     </>
   );
@@ -146,7 +165,24 @@ const App = () => {
 
 export default App;
 
+const useRandomQuestions = (numberOfQuestions) => {
+  const allQuestions = usePromise(getQuestions) || [];
+  const questions = useMemo(
+    () =>
+      allQuestions
+        .sort(() => Math.random() - 0.5) // Naïve and probably wrong. See https://blog.codinghorror.com/the-danger-of-naivete/
+        .slice(0, numberOfQuestions),
+    [allQuestions, numberOfQuestions]
+  );
+
+  return questions;
+};
+
 const AppContainer = styled.div`
+  animation: ${fadeIn} ${theme.durations.medium}ms,
+    ${slideInFromBottom} ${theme.durations.long}ms;
+  animation-fill-mode: forwards;
+  position: relative;
   max-width: 80rem;
   min-height: 80vh;
   margin: 0 auto;
@@ -156,6 +192,10 @@ const AppContainer = styled.div`
 `;
 
 const Image = styled.img`
+  animation: ${fadeIn} ${theme.durations.medium}ms,
+    ${slideInFromTop} ${theme.durations.long}ms;
+  animation-fill-mode: forwards;
+  position: relative;
   display: block;
   width: 100%;
   min-height: 30vmin;
@@ -163,7 +203,7 @@ const Image = styled.img`
 `;
 
 const Title = styled.h2`
-  margin: 2em 0 0.8em 0;
+  margin: 2em 0 1em 0;
 
   &:first-child {
     margin-top: 0;
@@ -172,11 +212,17 @@ const Title = styled.h2`
 
 const Button = styled(BaseButton)`
   width: 100%;
-  margin-top: 8rem;
+  margin-top: 4rem;
+`;
+
+const Contribute = styled.p`
+  margin-top: 4rem;
 `;
 
 const Footer = styled.footer`
   display: flex;
+  gap: 1rem;
+  flex-direction: column;
   justify-content: space-between;
   max-width: 80rem;
   margin: 0 auto 10vmin auto;
@@ -186,6 +232,15 @@ const Footer = styled.footer`
   font-size: 1.2rem;
 
   @media (min-width: 50em) {
+    flex-direction: row;
     padding: 1rem 0;
+  }
+`;
+
+const FooterItem = styled.div`
+  margin: 0.5rem 2rem;
+
+  @media (min-width: 50em) {
+    margin: 0;
   }
 `;
