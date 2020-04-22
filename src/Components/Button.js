@@ -4,7 +4,7 @@ import theme from '../theme';
 const Button = styled.button`
   cursor: pointer;
   border: 2px solid ${theme.primary.main};
-  background: transparent;
+  background: ${theme.primary.contrast};
   padding: 2rem 3rem;
 
   color: ${theme.primary.main};

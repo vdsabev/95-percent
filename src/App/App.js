@@ -57,100 +57,111 @@ const App = () => {
   }, [ranges]);
 
   return (
-    <AppContainer>
-      <Title>{targetConfidencePercent}% Confidence Interval</Title>
+    <>
+      <AppContainer>
+        <Image src="background.svg" alt="" aria-hidden />
 
-      <p>
-        For each of the following questions, provide a range that you are{' '}
-        <b>{targetConfidencePercent}% confident</b> includes the correct answer.
-      </p>
+        <Title>{targetConfidencePercent}% Confidence Interval</Title>
 
-      <form onSubmit={checkAnswers}>
-        <fieldset disabled={correctAnswers != null}>
-          {questions.map((question, questionIndex) => (
-            <Question
-              key={question.q}
-              question={question.q}
-              min={ranges[questionIndex].min}
-              max={ranges[questionIndex].max}
-              setRange={setRange(questionIndex)}
-              isFirst={questionIndex === 0}
-            />
-          ))}
+        <p>
+          For each of the following questions, provide a range that you are{' '}
+          <b>{targetConfidencePercent}% confident</b> includes the correct
+          answer.
+        </p>
 
-          {correctAnswers == null && (
-            <Button type="submit">Check Answers</Button>
-          )}
-        </fieldset>
-      </form>
+        <form onSubmit={checkAnswers}>
+          <fieldset disabled={correctAnswers != null}>
+            {questions.map((question, questionIndex) => (
+              <Question
+                key={question.q}
+                question={question.q}
+                min={ranges[questionIndex].min}
+                max={ranges[questionIndex].max}
+                setRange={setRange(questionIndex)}
+                isFirst={questionIndex === 0}
+              />
+            ))}
 
-      {correctAnswers != null && (
-        <>
-          <Title>Results</Title>
-
-          <p>
-            You answered{' '}
-            <b>
-              {correctAnswers} out of {questions.length}
-            </b>{' '}
-            questions correctly. This amounts to{' '}
-            <b>{confidencePercent}% confidence</b>.
-          </p>
-
-          <p>
-            {confidencePercent < targetConfidencePercent ? (
-              <span>
-                You likely did not use a large enough range to provide{' '}
-                <b>{targetConfidencePercent}% confidence</b>.
-              </span>
-            ) : confidencePercent > targetConfidencePercent ? (
-              `You likely created too large a confidence interval.`
-            ) : (
-              `You got it just right!`
+            {correctAnswers == null && (
+              <Button type="submit">Check Answers</Button>
             )}
-          </p>
+          </fieldset>
+        </form>
 
-          <Button type="button" onClick={resetAnswers} autoFocus>
-            Reset Answers
-          </Button>
-        </>
-      )}
+        {correctAnswers != null && (
+          <>
+            <Title>Results</Title>
+
+            <p>
+              <b>
+                {correctAnswers} out of {questions.length}
+              </b>{' '}
+              answers are within the ranges you specified. This amounts to{' '}
+              <b>{confidencePercent}% confidence</b>.
+            </p>
+
+            <p>
+              {confidencePercent < targetConfidencePercent ? (
+                <span>
+                  You likely did not use a large enough range to provide{' '}
+                  <b>{targetConfidencePercent}% confidence</b>.
+                </span>
+              ) : confidencePercent > targetConfidencePercent ? (
+                `You likely created too large a confidence interval.`
+              ) : (
+                `You got it just right!`
+              )}
+            </p>
+
+            <Button type="button" onClick={resetAnswers} autoFocus>
+              Reset Answers
+            </Button>
+          </>
+        )}
+      </AppContainer>
 
       <Footer>
         <div>
-          source:&nbsp;
-          <ExternalLink href="https://peterattiamd.com/confidence/">
-            peterattiamd.com
+          credit:&nbsp;
+          <ExternalLink href="https://peterattiamd.com/confidence">
+            peterattiamd.com/confidence
           </ExternalLink>
         </div>
 
         <div>
-          code by:&nbsp;
-          <ExternalLink href="https://twitter.com/vdsabev">
-            @vdsabev
+          © {new Date().getFullYear()}&nbsp;
+          <ExternalLink href="https://vdsabev.com">vlad sabev</ExternalLink>
+        </div>
+
+        <div>
+          source:&nbsp;
+          <ExternalLink href="https://github.com/vdsabev/95-percent">
+            github.com/vdsabev/95-percent
           </ExternalLink>
         </div>
       </Footer>
-    </AppContainer>
+    </>
   );
 };
 
 export default App;
 
 const AppContainer = styled.div`
-  position: relative;
   max-width: 80rem;
-
-  --marginY: 8rem;
-  min-height: calc(100vh - 2 * var(--marginY));
-  margin: var(--marginY) auto;
-
-  background-color: ${theme.neutral.lightest};
+  min-height: 80vh;
+  margin: 30vmin auto 0 auto;
+  background: ${theme.neutral.lightest};
   padding: 4rem;
 `;
 
+const Image = styled.img`
+  display: block;
+  width: 100%;
+  margin-top: -30vmin;
+`;
+
 const Title = styled.h2`
-  margin: 1em 0 0.5em 0;
+  margin: 2em 0 0.8em 0;
 
   &:first-child {
     margin-top: 0;
@@ -159,17 +170,14 @@ const Title = styled.h2`
 
 const Button = styled(BaseButton)`
   width: 100%;
-  margin-top: 4rem;
+  margin-top: 8rem;
 `;
 
 const Footer = styled.footer`
-  position: absolute;
-  bottom: -3rem;
-  right: 0;
-  left: 0;
-
   display: flex;
   justify-content: space-between;
+  max-width: 80rem;
+  margin: 0 auto 10vmin auto;
   padding: 1rem;
 
   color: ${theme.primary.contrast};

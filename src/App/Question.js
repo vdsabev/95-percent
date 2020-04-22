@@ -30,7 +30,7 @@ const Container = styled.section`
 `;
 
 const Title = styled.h5`
-  margin: 1em 0 0.5em 0;
+  margin: 2em 0 0.8em 0;
 `;
 
 const AnswerContainer = styled.div`
