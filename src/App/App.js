@@ -149,14 +149,16 @@ export default App;
 const AppContainer = styled.div`
   max-width: 80rem;
   min-height: 80vh;
-  margin: 30vmin auto 0 auto;
+  margin: 0 auto;
   background: ${theme.neutral.lightest};
   padding: 4rem;
+  margin-top: 30vmin;
 `;
 
 const Image = styled.img`
   display: block;
   width: 100%;
+  min-height: 30vmin;
   margin-top: -30vmin;
 `;
 
