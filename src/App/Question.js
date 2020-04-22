@@ -1,9 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { fadeIn } from '../animations';
+import theme from '../theme';
 import Input from '../Components/Input';
 
-const Question = ({ isFirst, question, min, max, setIntervalValue, ...props }) => {
+const Question = ({
+  isFirst,
+  question,
+  min,
+  max,
+  setIntervalValue,
+  ...props
+}) => {
   return (
     <Container {...props}>
       <Title>{question}</Title>
@@ -24,10 +33,20 @@ const Question = ({ isFirst, question, min, max, setIntervalValue, ...props }) =
   );
 };
 
+export default Question;
+
 const Container = styled.label`
+  animation: ${fadeIn} ${theme.durations.long}ms forwards;
+  animation-delay: ${({ delay }) => delay * theme.durations.stagger}ms;
+
+  opacity: 0;
   display: block;
   margin: 8rem 0;
 `;
+
+Container.defaultProps = {
+  delay: 0,
+};
 
 const Title = styled.h5`
   margin: 1em 0;
@@ -52,5 +71,3 @@ const IntervalInput = styled(Input).attrs({ type: 'number', required: true })`
     margin: 0 0 0 2rem;
   }
 `;
-
-export default Question;

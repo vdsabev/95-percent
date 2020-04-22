@@ -90,6 +90,7 @@ const App = () => {
               min={intervalValues[question.id]?.min}
               max={intervalValues[question.id]?.max}
               setIntervalValue={setIntervalValue(question.id)}
+              delay={questionIndex}
             />
           ))}
 
