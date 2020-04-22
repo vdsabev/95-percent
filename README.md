@@ -11,8 +11,8 @@
 2. Publish spreadsheet as CSV following the instructions here: https://github.com/jsoma/tabletop#like-how-easy
 3. Set up required environment variables by creating a `.env` file locally or configuring your hosting provider:
 ```
-REACT_APP_GOOGLE_SPREADSHEET_URL=https://docs.google.com/spreadsheets/d/e/YOUR_SPREADSHEET_URL_HERE/pub?gid=YOUR_SPREADSHEET_URL_HERE&single=true&output=csv
 REACT_APP_CONTRIBUTE_FORM_URL=https://docs.google.com/forms/d/e/YOUR_FORM_URL_HERE/viewform
+REACT_APP_GOOGLE_SPREADSHEET_URL=https://docs.google.com/spreadsheets/d/e/YOUR_SPREADSHEET_URL_HERE/pub?gid=YOUR_SPREADSHEET_URL_HERE&single=true&output=csv
 REACT_APP_NUMBER_OF_QUESTIONS_IN_BATCH=20
 REACT_APP_TARGET_CONFIDENCE=95
 ```
