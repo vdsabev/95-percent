@@ -13,7 +13,6 @@ const Question = ({ isFirst, question, min, max, setIntervalValue, ...props }) =
           value={min ?? ''}
           onChange={setIntervalValue('min')}
           placeholder="minimum"
-          autoFocus={isFirst}
         />
         <IntervalInput
           value={max ?? ''}
@@ -25,7 +24,8 @@ const Question = ({ isFirst, question, min, max, setIntervalValue, ...props }) =
   );
 };
 
-const Container = styled.section`
+const Container = styled.label`
+  display: block;
   margin: 8rem 0;
 `;
 

@@ -41,7 +41,7 @@ const theme = {
     stagger: 100,
     short: 200,
     medium: 400,
-    long: 600,
+    long: 800,
   },
   transitions: {
     easeInOut: 'cubic-bezier(0.25, 0.1, 0.25, 1)',

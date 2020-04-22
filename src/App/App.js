@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { fadeIn, slideInFromTop, slideInFromBottom } from '../animations';
+import { brightIn, fadeIn, slideInFromBottom } from '../animations';
 import { usePromise } from '../hooks';
 import { getQuestions } from '../services';
 import theme from '../theme';
@@ -13,7 +13,7 @@ import {
   targetConfidencePercent,
 } from '../settings';
 
-import headerImageUrl from './header.svg';
+import HeaderImage from './HeaderImage';
 import Question from './Question';
 import intervalValuesStorage from './intervalValuesStorage';
 
@@ -65,8 +65,9 @@ const App = () => {
 
   return (
     <>
+      <HeaderImage />
+
       <AppContainer>
-        <Image src={headerImageUrl} alt="" aria-hidden />
         <Title>{targetConfidencePercent}% Confidence Interval</Title>
 
         <p>
@@ -89,7 +90,6 @@ const App = () => {
               min={intervalValues[question.id]?.min}
               max={intervalValues[question.id]?.max}
               setIntervalValue={setIntervalValue(question.id)}
-              isFirst={questionIndex === 0}
             />
           ))}
 
@@ -179,27 +179,18 @@ const useRandomQuestions = (numberOfQuestions) => {
 };
 
 const AppContainer = styled.div`
-  animation: ${fadeIn} ${theme.durations.medium}ms,
-    ${slideInFromBottom} ${theme.durations.long}ms;
+  animation: ${fadeIn} ${theme.durations.short}ms,
+    ${brightIn} ${theme.durations.long}ms,
+    ${slideInFromBottom} ${theme.durations.long}ms
+      ${theme.transitions.easeInOut};
   animation-fill-mode: forwards;
-  position: relative;
+
   max-width: 80rem;
   min-height: 80vh;
   margin: 0 auto;
   background: ${theme.neutral.lightest};
-  padding: 4rem;
-  margin-top: 30vmin;
-`;
-
-const Image = styled.img`
-  animation: ${fadeIn} ${theme.durations.medium}ms,
-    ${slideInFromTop} ${theme.durations.long}ms;
-  animation-fill-mode: forwards;
-  position: relative;
-  display: block;
-  width: 100%;
-  min-height: 30vmin;
-  margin-top: -30vmin;
+  padding: 5vmin;
+  padding-top: 30vmin;
 `;
 
 const Title = styled.h2`
