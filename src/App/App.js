@@ -101,13 +101,9 @@ How confident are you that you want to do this?
           <ButtonBar>
             <DangerButton
               type="button"
-              disabled={numberOfIntervalValues === 0}
-              title={
-                numberOfIntervalValues === 0
-                  ? `You haven't filled in any answers yet`
-                  : ''
-              }
               onClick={resetAnswers}
+              disabled={numberOfIntervalValues === 0}
+              data-tooltip="You haven't filled in any answers yet"
             >
               Reset Answers
             </DangerButton>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import theme from '../theme';
+import { tooltip } from './Tooltip';
 
 const Button = styled.button`
   cursor: pointer;
@@ -28,8 +29,8 @@ const Button = styled.button`
   }
 
   &:disabled {
-    cursor: default;
-    opacity: 0.5;
+    --color: ${theme.neutral.dark};
+    ${tooltip()}
   }
 `;
 
