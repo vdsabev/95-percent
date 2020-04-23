@@ -83,8 +83,8 @@ How confident are you that you want to do this?
         <Title>{targetConfidencePercent}% Confidence Interval</Title>
 
         <p>
-          How accurately can you estimate your own confidence about unfamiliar
-          facts and figures?
+          How accurate are you really when you say you're{' '}
+          <b>{targetConfidencePercent}% confident</b>?
         </p>
 
         <p>
@@ -92,6 +92,12 @@ How confident are you that you want to do this?
           collection), provide an interval that you are{' '}
           <b>{targetConfidencePercent}% confident</b> includes the correct
           answer.
+        </p>
+
+        <p>
+          The questions are intentionally difficult, obscure facts and figures.
+          You're unlikely to know all of them, or even most of them. Try to give
+          your best estimate and see where your confidence takes you.
         </p>
 
         <form onSubmit={checkAnswers}>

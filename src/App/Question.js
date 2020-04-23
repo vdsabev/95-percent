@@ -5,23 +5,18 @@ import { fadeIn } from '../animations';
 import theme from '../theme';
 import Input from '../Components/Input';
 
-const Question = ({
-  question,
-  min,
-  max,
-  setIntervalValue,
-  ...props
-}) => {
+const Question = ({ question, min, max, setIntervalValue, ...props }) => {
   return (
     <Container {...props}>
       <Title>{question}</Title>
       <AnswerContainer>
-        95% confidence interval:
+        Between
         <IntervalInput
           value={min ?? ''}
           onChange={setIntervalValue('min')}
           placeholder="minimum"
         />
+        and
         <IntervalInput
           value={max ?? ''}
           onChange={setIntervalValue('max')}
@@ -64,9 +59,9 @@ const AnswerContainer = styled.div`
 const IntervalInput = styled(Input).attrs({ type: 'number', required: true })`
   flex: 1;
   width: 100%;
-  margin: 2rem 0 0 0;
+  margin: 2rem 0;
 
   @media (min-width: 50em) {
-    margin: 0 0 0 2rem;
+    margin: 0 2rem;
   }
 `;
