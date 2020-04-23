@@ -6,7 +6,6 @@ import theme from '../theme';
 import Input from '../Components/Input';
 
 const Question = ({
-  isFirst,
   question,
   min,
   max,
