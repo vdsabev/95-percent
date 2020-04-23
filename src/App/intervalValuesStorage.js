@@ -10,6 +10,9 @@ const intervalValuesStorage = {
   clear() {
     localStorage.removeItem(storageKey);
   },
+  get length() {
+    return Object.keys(this.get()).length;
+  },
 };
 
 export default intervalValuesStorage;

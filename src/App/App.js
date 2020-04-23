@@ -12,6 +12,7 @@ import {
   numberOfQuestionsInBatch,
   targetConfidencePercent,
 } from '../settings';
+import system from '../system';
 
 import HeaderImage from './HeaderImage';
 import Question from './Question';
@@ -51,6 +52,17 @@ const App = () => {
   };
 
   const resetAnswers = () => {
+    const affirmativeAnswer = '100%';
+    const answer = system.prompt(`
+Heads up!
+
+You're about to delete ${intervalValuesStorage.length} answers that you already spent time filling in.
+How confident are you that you want to do this?
+
+(type ${affirmativeAnswer} to continue)
+    `);
+    if (answer !== affirmativeAnswer) return;
+
     setIntervalValues(defaultIntervalValues);
     setCorrectAnswers(null);
   };
