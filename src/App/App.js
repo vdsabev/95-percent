@@ -145,8 +145,6 @@ How confident are you that you want to do this?
                 <span>Wow, you got it just right!</span>
               )}
             </p>
-
-            <p>Want another go?</p>
           </>
         )}
 
