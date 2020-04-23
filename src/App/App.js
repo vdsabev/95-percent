@@ -28,21 +28,24 @@ const App = () => {
     resetIntervalValues,
   } = useIntervalValues();
 
-  const [correctAnswers, setCorrectAnswers] = useState(null);
+  const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(null);
   const confidencePercent = Math.round(
-    100 * (correctAnswers / questions.length)
+    100 * (numberOfCorrectAnswers / questions.length)
   );
 
   const checkAnswers = (e) => {
     e.preventDefault();
-    const correctAnswers = questions.reduce((correctAnswers, question) => {
-      const intervalValue = intervalValues[question.id];
-      const answerIsWithinInterval =
-        intervalValue.min <= question.answer &&
-        question.answer <= intervalValue.max;
-      return correctAnswers + (answerIsWithinInterval ? 1 : 0);
-    }, 0);
-    setCorrectAnswers(correctAnswers);
+    const numberOfCorrectAnswers = questions.reduce(
+      (numberOfCorrectAnswers, question) => {
+        const intervalValue = intervalValues[question.id];
+        const answerIsWithinInterval =
+          intervalValue.min <= question.answer &&
+          question.answer <= intervalValue.max;
+        return numberOfCorrectAnswers + (answerIsWithinInterval ? 1 : 0);
+      },
+      0
+    );
+    setNumberOfCorrectAnswers(numberOfCorrectAnswers);
   };
 
   const resetAnswers = () => {
@@ -58,7 +61,7 @@ How confident are you that you want to do this?
     if (answer !== affirmativeAnswer) return;
 
     resetIntervalValues();
-    setCorrectAnswers(null);
+    setNumberOfCorrectAnswers(null);
   };
 
   return (
@@ -112,13 +115,13 @@ How confident are you that you want to do this?
           </ButtonBar>
         </form>
 
-        {correctAnswers != null && (
+        {numberOfCorrectAnswers != null && (
           <>
             <Title>Results</Title>
 
             <p>
               <b>
-                {correctAnswers} out of {questions.length}
+                {numberOfCorrectAnswers} out of {questions.length}
               </b>{' '}
               answers are within the intervals you specified. This amounts to{' '}
               <b>{confidencePercent}%</b>.
