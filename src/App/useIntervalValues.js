@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import createJsonStorage from '../createJsonStorage';
 
 const defaultIntervalValues = {};
@@ -9,19 +9,18 @@ const useIntervalValues = () => {
     jsonStorage.get() || defaultIntervalValues
   );
 
+  useEffect(() => {
+    jsonStorage.set(intervalValues);
+  }, [intervalValues]);
+
   const numberOfIntervalValues = Object.keys(intervalValues || {}).length;
 
   const setIntervalValue = (key) => (field) => (e) => {
     const { value } = e.target;
-    setIntervalValues((intervalValues) => {
-      const newIntervalValues = {
-        ...intervalValues,
-        [key]: { ...intervalValues[key], [field]: value },
-      };
-      jsonStorage.set(newIntervalValues);
-
-      return newIntervalValues;
-    });
+    setIntervalValues((intervalValues) => ({
+      ...intervalValues,
+      [key]: { ...intervalValues[key], [field]: value },
+    }));
   };
 
   const resetIntervalValues = () => setIntervalValues(defaultIntervalValues);
