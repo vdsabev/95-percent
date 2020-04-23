@@ -69,8 +69,8 @@ How confident are you that you want to do this?
         <Title>{targetConfidencePercent}% Confidence Interval</Title>
 
         <p>
-          How accurate are you really when you say you're{' '}
-          <b>{targetConfidencePercent}% confident</b>?
+          How accurate are you really when you think you have{' '}
+          <b>{targetConfidencePercent}% confidence</b> in something?
         </p>
 
         <p>
