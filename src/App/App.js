@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { brightIn, fadeIn, slideInFromBottom } from '../animations';
 import { usePromise } from '../hooks';
 import { getQuestions } from '../services';
 import theme from '../theme';
-import BaseButton from '../Components/Button';
+import { DangerButton, PrimaryButton } from '../Components/Button';
 import ExternalLink from '../Components/ExternalLink';
 import {
   contributeFormUrl,
@@ -16,23 +16,17 @@ import system from '../system';
 
 import HeaderImage from './HeaderImage';
 import Question from './Question';
-import intervalValuesStorage from './intervalValuesStorage';
-
-const defaultIntervalValues = {};
+import useIntervalValues from './useIntervalValues';
 
 const App = () => {
   const questions = useRandomQuestions(numberOfQuestionsInBatch);
 
-  const [intervalValues, setIntervalValues] = useState(
-    intervalValuesStorage.get() || defaultIntervalValues
-  );
-  const setIntervalValue = (key) => (field) => (e) => {
-    const { value } = e.target;
-    setIntervalValues((intervalValues) => ({
-      ...intervalValues,
-      [key]: { ...intervalValues[key], [field]: value },
-    }));
-  };
+  const {
+    intervalValues,
+    numberOfIntervalValues,
+    setIntervalValue,
+    resetIntervalValues,
+  } = useIntervalValues();
 
   const [correctAnswers, setCorrectAnswers] = useState(null);
   const confidencePercent = Math.round(
@@ -56,24 +50,16 @@ const App = () => {
     const answer = system.prompt(`
 Heads up!
 
-You're about to delete ${intervalValuesStorage.length} answers that you already spent time filling in.
+You're about to delete ${numberOfIntervalValues} answers that you already spent time filling in.
 How confident are you that you want to do this?
 
-(type ${affirmativeAnswer} to continue)
+(type "${affirmativeAnswer}" to continue)
     `);
     if (answer !== affirmativeAnswer) return;
 
-    setIntervalValues(defaultIntervalValues);
+    resetIntervalValues();
     setCorrectAnswers(null);
   };
-
-  useEffect(() => {
-    if (intervalValues === defaultIntervalValues) {
-      intervalValuesStorage.clear();
-    } else {
-      intervalValuesStorage.set(intervalValues);
-    }
-  }, [intervalValues]);
 
   return (
     <>
@@ -112,9 +98,22 @@ How confident are you that you want to do this?
             />
           ))}
 
-          {correctAnswers == null && (
-            <Button type="submit">Check Answers</Button>
-          )}
+          <ButtonBar>
+            <DangerButton
+              type="button"
+              disabled={numberOfIntervalValues === 0}
+              title={
+                numberOfIntervalValues === 0
+                  ? `You haven't filled in any answers yet`
+                  : ''
+              }
+              onClick={resetAnswers}
+            >
+              Reset Answers
+            </DangerButton>
+
+            <PrimaryButton type="submit">Check Answers</PrimaryButton>
+          </ButtonBar>
         </form>
 
         {correctAnswers != null && (
@@ -148,10 +147,6 @@ How confident are you that you want to do this?
             </p>
 
             <p>Want another go?</p>
-
-            <Button type="button" onClick={resetAnswers} autoFocus>
-              Reset Answers
-            </Button>
           </>
         )}
 
@@ -220,9 +215,15 @@ const Title = styled.h2`
   }
 `;
 
-const Button = styled(BaseButton)`
-  width: 100%;
+const ButtonBar = styled.div`
+  display: grid;
+  grid-gap: 2rem;
+  grid-auto-flow: row;
   margin-top: 4rem;
+
+  @media (min-width: 50em) {
+    grid-auto-flow: column;
+  }
 `;
 
 const Contribute = styled.p`

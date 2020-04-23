@@ -1,6 +1,4 @@
-const storageKey = 'intervals';
-
-const intervalValuesStorage = {
+const createJsonStorage = (storageKey) => ({
   get() {
     return JSON.parse(localStorage.getItem(storageKey) || 'null');
   },
@@ -10,9 +8,6 @@ const intervalValuesStorage = {
   clear() {
     localStorage.removeItem(storageKey);
   },
-  get length() {
-    return Object.keys(this.get()).length;
-  },
-};
+});
 
-export default intervalValuesStorage;
+export default createJsonStorage;
