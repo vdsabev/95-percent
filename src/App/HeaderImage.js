@@ -33,5 +33,5 @@ const Image = styled.img`
   display: block;
   height: 45.2rem;
   max-height: 50vmin;
-  margin: 7.5vmin auto -22.5vmin auto;
+  margin: 10vmin auto -26vmin auto;
 `;

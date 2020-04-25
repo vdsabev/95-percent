@@ -201,7 +201,7 @@ const AppContainer = styled.div`
   margin: 0 auto;
   background: ${theme.neutral.lightest};
   padding: 5vmin;
-  padding-top: 30vmin;
+  padding-top: 32vmin;
 `;
 
 const Title = styled.h2`
