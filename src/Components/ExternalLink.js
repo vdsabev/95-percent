@@ -9,7 +9,7 @@ const ExternalLink = styled.a.attrs({
 })`
   position: relative;
 
-  ::after {
+  &::after {
     animation: ${nudge} ${theme.durations.medium}ms ${theme.transitions.easeInOut};
     animation-fill-mode: both;
     animation-direction: alternate;
