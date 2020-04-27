@@ -7,7 +7,7 @@ class ErrorBoundary extends React.Component {
 
   state = {};
 
-  render({ error } = this.state) {
+  render({ children } = this.props, { error } = this.state) {
     if (error) {
       return (
         <>
@@ -19,7 +19,7 @@ class ErrorBoundary extends React.Component {
       );
     }
 
-    return this.props.children;
+    return children;
   }
 }
 
