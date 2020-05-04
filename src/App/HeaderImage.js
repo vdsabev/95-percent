@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
-import { fadeIn, slideInFromTop } from '../animations';
-import theme from '../theme';
+import { fadeIn, slideInFromTop } from '../animations'
+import theme from '../theme'
 
-import headerImageUrl from './header.svg';
+import headerImageUrl from './header.svg'
 
 const HeaderImage = (props) => {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false)
   return (
     <Image
       src={headerImageUrl}
@@ -16,10 +16,10 @@ const HeaderImage = (props) => {
       aria-hidden
       {...props}
     />
-  );
-};
+  )
+}
 
-export default HeaderImage;
+export default HeaderImage
 
 const Image = styled.img`
   animation: ${fadeIn} ${theme.durations.short}ms,
@@ -34,4 +34,4 @@ const Image = styled.img`
   height: 45.2rem;
   max-height: 50vmin;
   margin: 10vmin auto -26vmin auto;
-`;
+`

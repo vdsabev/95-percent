@@ -1,13 +1,13 @@
 const createJsonStorage = (storageKey) => ({
   get() {
-    return JSON.parse(localStorage.getItem(storageKey) || 'null');
+    return JSON.parse(localStorage.getItem(storageKey) || 'null')
   },
   set(data) {
-    localStorage.setItem(storageKey, JSON.stringify(data));
+    localStorage.setItem(storageKey, JSON.stringify(data))
   },
   clear() {
-    localStorage.removeItem(storageKey);
+    localStorage.removeItem(storageKey)
   },
-});
+})
 
-export default createJsonStorage;
+export default createJsonStorage

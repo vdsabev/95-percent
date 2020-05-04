@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
-import { fadeIn } from '../animations';
-import theme from '../theme';
-import Input from '../Components/Input';
+import { fadeIn } from '../animations'
+import theme from '../theme'
+import Input from '../Components/Input'
 
 const Question = ({ question, min, max, setIntervalValue, ...props }) => {
   return (
@@ -24,10 +24,10 @@ const Question = ({ question, min, max, setIntervalValue, ...props }) => {
         />
       </AnswerContainer>
     </Container>
-  );
-};
+  )
+}
 
-export default Question;
+export default Question
 
 const Container = styled.label`
   animation: ${fadeIn} ${theme.durations.long}ms forwards;
@@ -36,15 +36,15 @@ const Container = styled.label`
   opacity: 0;
   display: block;
   margin: 8rem 0;
-`;
+`
 
 Container.defaultProps = {
   delay: 0,
-};
+}
 
 const Title = styled.h5`
   margin: 1em 0;
-`;
+`
 
 const AnswerContainer = styled.div`
   display: flex;
@@ -54,7 +54,7 @@ const AnswerContainer = styled.div`
   @media (min-width: 50em) {
     flex-direction: row;
   }
-`;
+`
 
 const IntervalInput = styled(Input).attrs({ type: 'number', required: true })`
   flex: 1;
@@ -64,4 +64,4 @@ const IntervalInput = styled(Input).attrs({ type: 'number', required: true })`
   @media (min-width: 50em) {
     margin: 0 2rem;
   }
-`;
+`

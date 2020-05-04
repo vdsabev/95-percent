@@ -1,5 +1,5 @@
-import { css } from 'styled-components';
-import theme from '../theme';
+import { css } from 'styled-components'
+import theme from '../theme'
 
 export const tooltip = ({
   color = theme.info.contrast,
@@ -51,4 +51,4 @@ export const tooltip = ({
     display: block;
     opacity: 1;
   }
-`;
+`

@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { nudge } from '../animations';
-import theme from '../theme';
+import { nudge } from '../animations'
+import theme from '../theme'
 
 const ExternalLink = styled.a.attrs({
   target: '_blank',
@@ -10,7 +10,8 @@ const ExternalLink = styled.a.attrs({
   position: relative;
 
   &::after {
-    animation: ${nudge} ${theme.durations.medium}ms ${theme.transitions.easeInOut};
+    animation: ${nudge} ${theme.durations.medium}ms
+      ${theme.transitions.easeInOut};
     animation-fill-mode: both;
     animation-direction: alternate;
     animation-iteration-count: infinite;
@@ -26,6 +27,6 @@ const ExternalLink = styled.a.attrs({
   &:hover::after {
     opacity: 1;
   }
-`;
+`
 
-export default ExternalLink;
+export default ExternalLink

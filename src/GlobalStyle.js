@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import theme from './theme';
+import { createGlobalStyle } from 'styled-components'
+import theme from './theme'
 
 // Source: https://github.com/cmless/seed/blob/master/src/style.css
 const GlobalStyle = createGlobalStyle`
@@ -75,6 +75,6 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-`;
+`
 
-export default GlobalStyle;
+export default GlobalStyle

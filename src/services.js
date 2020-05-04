@@ -1,5 +1,5 @@
-import Papa from 'papaparse';
-import { questionsSpreadsheetUrl } from './settings';
+import Papa from 'papaparse'
+import { questionsSpreadsheetUrl } from './settings'
 
 /** @typedef {{ id: string, question: string, answer: number }} Question */
 
@@ -14,8 +14,8 @@ export const getQuestions = () => {
         .join('_')
         .replace(/[\W,]/g, ''),
     }))
-  );
-};
+  )
+}
 
 const getCsvByUrl = (url, options) => {
   return new Promise((resolve, reject) => {
@@ -24,16 +24,19 @@ const getCsvByUrl = (url, options) => {
       dynamicTyping: true,
       header: true,
       transformHeader(header) {
-        return header.toLowerCase().split(/\s+/).join('_');
+        return header
+          .toLowerCase()
+          .split(/\s+/)
+          .join('_')
       },
       complete(response) {
         if (response.errors.length > 0) {
-          reject(response.errors);
+          reject(response.errors)
         } else {
-          resolve(response.data);
+          resolve(response.data)
         }
       },
       ...options,
-    });
-  });
-};
+    })
+  })
+}

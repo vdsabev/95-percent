@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 class ErrorBoundary extends React.Component {
   static getDerivedStateFromError(error) {
-    return { error };
+    return { error }
   }
 
-  state = {};
+  state = {}
 
   render({ children } = this.props, { error } = this.state) {
     if (error) {
@@ -16,11 +16,11 @@ class ErrorBoundary extends React.Component {
             <pre>{error.stack}</pre>
           </details>
         </>
-      );
+      )
     }
 
-    return children;
+    return children
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary

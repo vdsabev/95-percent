@@ -1,55 +1,55 @@
-import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
+import React, { useMemo, useState } from 'react'
+import styled from 'styled-components'
 
-import { brightIn, fadeIn, slideInFromBottom } from '../animations';
-import { usePromise } from '../hooks';
-import { getQuestions } from '../services';
-import theme from '../theme';
-import { DangerButton, PrimaryButton } from '../Components/Button';
-import ExternalLink from '../Components/ExternalLink';
+import { brightIn, fadeIn, slideInFromBottom } from '../animations'
+import { usePromise } from '../hooks'
+import { getQuestions } from '../services'
+import theme from '../theme'
+import { DangerButton, PrimaryButton } from '../Components/Button'
+import ExternalLink from '../Components/ExternalLink'
 import {
   contributeFormUrl,
   numberOfQuestionsInBatch,
   targetConfidencePercent,
-} from '../settings';
-import system from '../system';
+} from '../settings'
+import system from '../system'
 
-import HeaderImage from './HeaderImage';
-import Question from './Question';
-import useIntervalValues from './useIntervalValues';
+import HeaderImage from './HeaderImage'
+import Question from './Question'
+import useIntervalValues from './useIntervalValues'
 
 const App = () => {
-  const questions = useRandomQuestions(numberOfQuestionsInBatch);
+  const questions = useRandomQuestions(numberOfQuestionsInBatch)
 
   const {
     intervalValues,
     numberOfIntervalValues,
     setIntervalValue,
     resetIntervalValues,
-  } = useIntervalValues();
+  } = useIntervalValues()
 
-  const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(null);
+  const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(null)
   const confidencePercent = Math.round(
     100 * (numberOfCorrectAnswers / questions.length)
-  );
+  )
 
   const checkAnswers = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const numberOfCorrectAnswers = questions.reduce(
       (numberOfCorrectAnswers, question) => {
-        const intervalValue = intervalValues[question.id];
+        const intervalValue = intervalValues[question.id]
         const answerIsWithinInterval =
           intervalValue.min <= question.answer &&
-          question.answer <= intervalValue.max;
-        return numberOfCorrectAnswers + (answerIsWithinInterval ? 1 : 0);
+          question.answer <= intervalValue.max
+        return numberOfCorrectAnswers + (answerIsWithinInterval ? 1 : 0)
       },
       0
-    );
-    setNumberOfCorrectAnswers(numberOfCorrectAnswers);
-  };
+    )
+    setNumberOfCorrectAnswers(numberOfCorrectAnswers)
+  }
 
   const resetAnswers = () => {
-    const affirmativeAnswer = '100%';
+    const affirmativeAnswer = '100%'
     const answer = system.prompt(`
 Heads up!
 
@@ -57,12 +57,12 @@ You're about to delete ${numberOfIntervalValues} answers that you already spent 
 How confident are you that you want to do this?
 
 (type "${affirmativeAnswer}" to continue)
-    `);
-    if (answer !== affirmativeAnswer) return;
+    `)
+    if (answer !== affirmativeAnswer) return
 
-    resetIntervalValues();
-    setNumberOfCorrectAnswers(null);
-  };
+    resetIntervalValues()
+    setNumberOfCorrectAnswers(null)
+  }
 
   return (
     <>
@@ -90,7 +90,8 @@ How confident are you that you want to do this?
         </p>
 
         <p>
-          To allow you to retake the test and improve your results, the correct answers will not be revealed, only how many you got right. Good luck!
+          To allow you to retake the test and improve your results, the correct
+          answers will not be revealed, only how many you got right. Good luck!
         </p>
 
         <form onSubmit={checkAnswers}>
@@ -175,23 +176,23 @@ How confident are you that you want to do this?
         </FooterItem>
       </Footer>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
 
 const useRandomQuestions = (numberOfQuestions) => {
-  const allQuestions = usePromise(getQuestions) || [];
+  const allQuestions = usePromise(getQuestions) || []
   const questions = useMemo(
     () =>
       allQuestions
         .sort(() => Math.random() - 0.5) // Naïve and probably wrong. See https://blog.codinghorror.com/the-danger-of-naivete/
         .slice(0, numberOfQuestions),
     [allQuestions, numberOfQuestions]
-  );
+  )
 
-  return questions;
-};
+  return questions
+}
 
 const AppContainer = styled.div`
   animation: ${fadeIn} ${theme.durations.short}ms,
@@ -206,7 +207,7 @@ const AppContainer = styled.div`
   background: ${theme.neutral.lightest};
   padding: 5vmin;
   padding-top: 32vmin;
-`;
+`
 
 const Title = styled.h2`
   margin: 2em 0 1em 0;
@@ -214,7 +215,7 @@ const Title = styled.h2`
   &:first-child {
     margin-top: 0;
   }
-`;
+`
 
 const ButtonBar = styled.div`
   display: grid;
@@ -225,11 +226,11 @@ const ButtonBar = styled.div`
   @media (min-width: 50em) {
     grid-auto-flow: column;
   }
-`;
+`
 
 const Contribute = styled.p`
   margin-top: 4rem;
-`;
+`
 
 const Footer = styled.footer`
   display: flex;
@@ -247,7 +248,7 @@ const Footer = styled.footer`
     flex-direction: row;
     padding: 1rem 0;
   }
-`;
+`
 
 const FooterItem = styled.div`
   margin: 0.5rem 2rem;
@@ -255,4 +256,4 @@ const FooterItem = styled.div`
   @media (min-width: 50em) {
     margin: 0;
   }
-`;
+`

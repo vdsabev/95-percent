@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import theme from '../theme';
-import { tooltip } from './Tooltip';
+import styled from 'styled-components'
+import theme from '../theme'
+import { tooltip } from './Tooltip'
 
 const Button = styled.button`
   cursor: pointer;
@@ -32,29 +32,29 @@ const Button = styled.button`
     --color: ${theme.neutral.dark};
     ${tooltip()}
   }
-`;
+`
 
 export const PrimaryButton = styled(Button)`
   --color: ${theme.primary.main};
   --background: ${theme.primary.contrast};
-`;
+`
 
 export const SuccessButton = styled(Button)`
   --color: ${theme.success.main};
   --background: ${theme.success.contrast};
-`;
+`
 
 export const WarningButton = styled(Button)`
   --color: ${theme.warning.main};
   --background: ${theme.warning.contrast};
-`;
+`
 
 export const DangerButton = styled(Button)`
   --color: ${theme.danger.main};
   --background: ${theme.danger.contrast};
-`;
+`
 
 export const InfoButton = styled(Button)`
   --color: ${theme.info.main};
   --background: ${theme.info.contrast};
-`;
+`

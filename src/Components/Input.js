@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import theme from '../theme';
+import styled from 'styled-components'
+import theme from '../theme'
 
 const Input = styled.input`
   outline: 0;
@@ -11,6 +11,6 @@ const Input = styled.input`
   &::placeholder {
     font-size: 0.66em;
   }
-`;
+`
 
-export default Input;
+export default Input
