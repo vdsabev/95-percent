@@ -89,6 +89,10 @@ How confident are you that you want to do this?
           your best estimate and see where your confidence takes you.
         </p>
 
+        <p>
+          To allow you to retake the test and improve your results, the correct answers will not be revealed, only how many you got right. Good luck!
+        </p>
+
         <form onSubmit={checkAnswers}>
           {questions.map((question, questionIndex) => (
             <Question
