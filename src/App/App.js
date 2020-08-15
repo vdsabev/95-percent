@@ -1,9 +1,7 @@
-import React, { useMemo, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { brightIn, fadeIn, slideInFromBottom } from '../animations'
-import { usePromise } from '../hooks'
-import { getQuestions } from '../services'
 import theme from '../theme'
 import {
   contributeFormUrl,
@@ -18,10 +16,17 @@ import ExternalLink from '../Components/ExternalLink'
 
 import HeaderImage from './HeaderImage'
 import Question from './Question'
+import useElementScroller from './useElementScroller'
 import useIntervalValues from './useIntervalValues'
+import useRandomQuestions from './useRandomQuestions'
 
 const App = () => {
   const questions = useRandomQuestions(numberOfQuestionsInBatch)
+  const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(null)
+  const numberOfTotalAnswers = questions.length
+  const confidencePercent = Math.round(
+    100 * (numberOfCorrectAnswers / numberOfTotalAnswers)
+  )
 
   const {
     intervalValues,
@@ -30,12 +35,14 @@ const App = () => {
     resetIntervalValues,
   } = useIntervalValues()
 
-  const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState(null)
-  const confidencePercent = Math.round(
-    100 * (numberOfCorrectAnswers / questions.length)
-  )
+  const startElementRef = useRef(null)
+  const resultsElementRef = useRef(null)
+  const elementScroller = useElementScroller({
+    previousElementRef: startElementRef,
+    nextElementRef: resultsElementRef,
+  })
 
-  const checkAnswers = (e) => {
+  const checkAnswers = (/** @type {React.FormEvent<HTMLFormElement>}*/ e) => {
     e.preventDefault()
     const numberOfCorrectAnswers = questions.reduce(
       (numberOfCorrectAnswers, question) => {
@@ -48,6 +55,7 @@ const App = () => {
       0
     )
     setNumberOfCorrectAnswers(numberOfCorrectAnswers)
+    elementScroller.scrollToNext()
   }
 
   const resetAnswers = () => {
@@ -64,6 +72,7 @@ How confident are you that you want to do this?
 
     resetIntervalValues()
     setNumberOfCorrectAnswers(null)
+    elementScroller.scrollToPrevious()
   }
 
   return (
@@ -71,7 +80,9 @@ How confident are you that you want to do this?
       <HeaderImage />
 
       <AppContainer>
-        <Title>{targetConfidencePercent}% Confidence Interval</Title>
+        <Title ref={startElementRef}>
+          {targetConfidencePercent}% Confidence Interval
+        </Title>
 
         <p>
           How accurate are you really when you think you have{' '}
@@ -126,11 +137,11 @@ How confident are you that you want to do this?
 
         {numberOfCorrectAnswers != null && (
           <>
-            <Title>Results</Title>
+            <Title ref={resultsElementRef}>Results</Title>
 
             <p>
               <b>
-                {numberOfCorrectAnswers} out of {questions.length}
+                {numberOfCorrectAnswers} out of {numberOfTotalAnswers}
               </b>{' '}
               answers are within the intervals you specified. This amounts to{' '}
               <b>{confidencePercent}%</b>.
@@ -207,19 +218,6 @@ How confident are you that you want to do this?
 }
 
 export default App
-
-const useRandomQuestions = (numberOfQuestions) => {
-  const allQuestions = usePromise(getQuestions) || []
-  const questions = useMemo(
-    () =>
-      allQuestions
-        .sort(() => Math.random() - 0.5) // Naïve and probably wrong. See https://blog.codinghorror.com/the-danger-of-naivete/
-        .slice(0, numberOfQuestions),
-    [allQuestions, numberOfQuestions]
-  )
-
-  return questions
-}
 
 const AppContainer = styled.div`
   animation: ${fadeIn} ${theme.durations.short}ms,
