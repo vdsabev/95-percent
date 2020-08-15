@@ -142,7 +142,7 @@ How confident are you that you want to do this?
                   The goal is to get exactly <b>{targetConfidencePercent}%</b>{' '}
                   right - you were likely <b>overly confident</b> and did not
                   use large enough intervals. Hey, it happens to the best of us,
-                  let alone you! No worries, we won't tell your boss.
+                  let alone you! No worries, we won't tell your friends.
                 </p>
 
                 <p>
