@@ -1,42 +1,20 @@
-import Papa from 'papaparse'
-import { questionsSpreadsheetUrl } from './settings'
+import { apiBaseUrl } from './settings'
 
 /** @typedef {{ id: string, question: string, answer: number }} Question */
 
 /** @returns {Promise<Question[]>} */
 export const getQuestions = () => {
-  return getCsvByUrl(questionsSpreadsheetUrl).then((questions) =>
-    questions.map((question) => ({
-      ...question,
-      id: question.question
-        .toLowerCase()
-        .split(/\s+/)
-        .join('_')
-        .replace(/[\W,]/g, ''),
-    }))
-  )
+  return fetchJson(`${apiBaseUrl}/questions`)
 }
 
-const getCsvByUrl = (url, options) => {
-  return new Promise((resolve, reject) => {
-    Papa.parse(url, {
-      download: true,
-      dynamicTyping: true,
-      header: true,
-      transformHeader(header) {
-        return header
-          .toLowerCase()
-          .split(/\s+/)
-          .join('_')
-      },
-      complete(response) {
-        if (response.errors.length > 0) {
-          reject(response.errors)
-        } else {
-          resolve(response.data)
-        }
-      },
-      ...options,
-    })
+const fetchJson = (
+  /** @type {RequestInfo} */ input,
+  /** @type {RequestInit?} */ init
+) => {
+  return fetch(input, init).then((response) => {
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`)
+    }
+    return response.json()
   })
 }

@@ -1,7 +1,6 @@
-export const contributeFormUrl = process.env.REACT_APP_CONTRIBUTE_FORM_URL
+export const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
 
-export const questionsSpreadsheetUrl =
-  process.env.REACT_APP_GOOGLE_SPREADSHEET_URL
+export const contributeFormUrl = process.env.REACT_APP_CONTRIBUTE_FORM_URL
 
 export const numberOfQuestionsInBatch = parseInt(
   process.env.REACT_APP_NUMBER_OF_QUESTIONS_IN_BATCH

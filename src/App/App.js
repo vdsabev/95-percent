@@ -5,14 +5,16 @@ import { brightIn, fadeIn, slideInFromBottom } from '../animations'
 import { usePromise } from '../hooks'
 import { getQuestions } from '../services'
 import theme from '../theme'
-import { DangerButton, PrimaryButton } from '../Components/Button'
-import ExternalLink from '../Components/ExternalLink'
 import {
   contributeFormUrl,
   numberOfQuestionsInBatch,
   targetConfidencePercent,
 } from '../settings'
 import system from '../system'
+
+import { DangerButton, PrimaryButton } from '../Components/Button'
+import Emoji from '../Components/Emoji'
+import ExternalLink from '../Components/ExternalLink'
 
 import HeaderImage from './HeaderImage'
 import Question from './Question'
@@ -78,15 +80,17 @@ How confident are you that you want to do this?
 
         <p>
           For each of the following questions (randomly sampled from our
-          collection), provide an interval that you are{' '}
+          collection), provide a number interval that you are{' '}
           <b>{targetConfidencePercent}% confident</b> includes the correct
           answer.
         </p>
 
         <p>
-          The questions are intentionally difficult, obscure facts and figures.
-          You're unlikely to know all of them, or even most of them. Try to give
-          your best estimate and see where your confidence takes you.
+          This doesn't test your intelligence or trivia knowledge - it tests how
+          aware you are of your limitations. The questions are intentionally
+          difficult, obscure facts and figures. You're unlikely to know all of
+          them, or even most of them. Try to give your best estimate and see
+          where your confidence takes you.
         </p>
 
         <p>
@@ -132,23 +136,46 @@ How confident are you that you want to do this?
               <b>{confidencePercent}%</b>.
             </p>
 
-            <p>
-              {confidencePercent < targetConfidencePercent ? (
-                <span>
+            {confidencePercent < targetConfidencePercent ? (
+              <>
+                <p>
                   The goal is to get exactly <b>{targetConfidencePercent}%</b>{' '}
                   right - you were likely <b>overly confident</b> and did not
-                  use large enough intervals.
-                </span>
-              ) : confidencePercent > targetConfidencePercent ? (
-                <span>
+                  use large enough intervals. Hey, it happens to the best of us,
+                  let alone you! No worries, we won't tell your boss.
+                </p>
+
+                <p>
+                  Readjust your answers and try again <Emoji symbol="😉" />
+                </p>
+              </>
+            ) : confidencePercent > targetConfidencePercent ? (
+              <>
+                <p>
                   The goal is to get exactly <b>{targetConfidencePercent}%</b>{' '}
                   right - you were likely <b>not confident enough</b> and used
-                  too large intervals.
-                </span>
-              ) : (
-                <span>Wow, you got it just right!</span>
-              )}
-            </p>
+                  too large intervals. Or you tried to cheat. You little rascal!
+                  What would your mother say?!
+                </p>
+
+                <p>
+                  Readjust your answers and try again <Emoji symbol="😉" />
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  Wow, you got it just right! You are now officially allowed to
+                  work as a hedge fund manager! Just tell them a guy on the
+                  Internet sent you <Emoji symbol="😉" />
+                </p>
+
+                <p>
+                  I know this was a long test, so here's a potato as a reward{' '}
+                  <Emoji label="potato" symbol="🥔" />
+                </p>
+              </>
+            )}
           </>
         )}
 
