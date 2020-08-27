@@ -6,20 +6,25 @@ const {
   GOOGLE_SHEETS_SHEET_RANGE,
 } = require('./src/settings')
 
-exports.handler = http.function('GET', async (event, context) => {
-  const sheets = google.sheets({ version: 'v4', auth: GOOGLE_SHEETS_API_KEY })
-  try {
-    const result = await sheets.spreadsheets.values.get({
-      spreadsheetId: GOOGLE_SHEETS_SHEET_ID,
-      range: GOOGLE_SHEETS_SHEET_RANGE,
-    })
-    const [columns, ...rowsOfCells] = result.data.values
-    return http.json(
-      rowsOfCells.map(toRowObject(columns.map(toQuestionKey))).map(toRowWithId)
-    )
-  } catch (error) {
-    return http.error(error, 502)
-  }
+exports.handler = http.function({
+  method: 'GET',
+  async handler(request, context) {
+    const sheets = google.sheets({ version: 'v4', auth: GOOGLE_SHEETS_API_KEY })
+    try {
+      const result = await sheets.spreadsheets.values.get({
+        spreadsheetId: GOOGLE_SHEETS_SHEET_ID,
+        range: GOOGLE_SHEETS_SHEET_RANGE,
+      })
+      const [columns, ...rowsOfCells] = result.data.values
+      return http.json(
+        rowsOfCells
+          .map(toRowObject(columns.map(toQuestionKey)))
+          .map(toRowWithId)
+      )
+    } catch (error) {
+      return http.error(502, error)
+    }
+  },
 })
 
 const toRowObject = (/** @type {string[]} */ columns) => (
