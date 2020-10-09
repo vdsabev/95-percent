@@ -10,12 +10,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "googleapis": "59.0.0",
-    "lessttp": "0.2.0",
+    "googleapis": "61.0.0",
+    "lessttp": "0.2.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "3.4.3",
-    "styled-components": "5.1.1"
+    "styled-components": "5.2.0"
   },
   "devDependencies": {
     "icon-gen": "2.0.0"
