@@ -1,17 +1,16 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 
 import App from './App'
 import ErrorBoundary from './Components/ErrorBoundary'
 import GlobalStyle from './GlobalStyle'
 // import * as serviceWorker from './serviceWorker'
 
-ReactDOM.render(
+ReactDOM.createRoot(document.querySelector('main')).render(
   <ErrorBoundary>
     <GlobalStyle />
     <App />
-  </ErrorBoundary>,
-  document.querySelector('main')
+  </ErrorBoundary>
 )
 
 // If you want your app to work offline and load faster, you can change

@@ -1,37 +1,17 @@
 {
-  "name": "95-percent",
-  "version": "1.2.0",
-  "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "npm run build.favicon && react-scripts build",
-    "build.favicon": "icon-gen -i public/favicon.svg -o public -r --favicon name=favicon ico=16,24,32,64 sizes=192,512",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "npx netlify dev",
+    "build": "npm run build.favicon && cmless build",
+    "build.favicon": "icon-gen -i public/favicon.svg -o public -r --favicon name=favicon ico=16,24,32,64 sizes=192,512"
   },
   "dependencies": {
-    "googleapis": "61.0.0",
-    "lessttp": "0.2.3",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-scripts": "3.4.3",
-    "styled-components": "5.2.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "styled-components": "5.3.6"
   },
   "devDependencies": {
-    "icon-gen": "2.0.0"
-  },
-  "eslintConfig": {
-    "extends": "react-app",
-    "rules": {
-      "no-unused-vars": [
-        "error",
-        {
-          "vars": "all",
-          "args": "none",
-          "ignoreRestSiblings": true
-        }
-      ]
-    }
+    "cmless": "^3.1.0",
+    "icon-gen": "^2.0.0"
   },
   "browserslist": {
     "production": [

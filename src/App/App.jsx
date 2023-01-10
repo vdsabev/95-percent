@@ -85,8 +85,8 @@ How confident are you that you want to do this?
         </Title>
 
         <p>
-          How accurate are you really when you think you have{' '}
-          <b>{targetConfidencePercent}% confidence</b> in something?
+          How accurate are you really when you think you're{' '}
+          <b>almost certain</b> about something?
         </p>
 
         <p>
@@ -94,6 +94,12 @@ How confident are you that you want to do this?
           collection), provide a number interval that you are{' '}
           <b>{targetConfidencePercent}% confident</b> includes the correct
           answer.
+        </p>
+
+        <p>
+          Important - <b>not 100% confident</b>, but{' '}
+          <b>{targetConfidencePercent}%</b>! Meaning you must leave some room
+          for being wrong.
         </p>
 
         <p>
@@ -231,7 +237,7 @@ const AppContainer = styled.div`
   margin: 0 auto;
   background: ${theme.neutral.lightest};
   padding: 5vmin;
-  padding-top: 32vmin;
+  padding-top: 24vmin;
 `
 
 const Title = styled.h2`

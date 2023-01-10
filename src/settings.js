@@ -1,11 +1,11 @@
-export const apiBaseUrl = '/api'
+export const apiBaseUrl = '/.netlify/functions'
 
-export const contributeFormUrl = process.env.REACT_APP_CONTRIBUTE_FORM_URL
+export const contributeFormUrl = import.meta.env.VITE_CONTRIBUTE_FORM_URL
 
 export const numberOfQuestionsInBatch = parseInt(
-  process.env.REACT_APP_NUMBER_OF_QUESTIONS_IN_BATCH
+  import.meta.env.VITE_NUMBER_OF_QUESTIONS_IN_BATCH
 )
 
 export const targetConfidencePercent = parseFloat(
-  process.env.REACT_APP_TARGET_CONFIDENCE
+  import.meta.env.VITE_TARGET_CONFIDENCE
 )

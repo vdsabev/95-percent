@@ -1,13 +1,13 @@
 [build]
+  # functions = "node_modules/cmless/api/"
   functions = "api/"
-  publish = "build/"
+  publish = "dist/"
+  command = "npm run build"
 
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 307
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[dev]
+  framework = "#custom"
+  command = "cmless --port 8080"
+  targetPort = 8080
+  port = 3000
+  publish = "dist"
+  autoLaunch = false
