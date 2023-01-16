@@ -10,7 +10,7 @@
     "styled-components": "5.3.6"
   },
   "devDependencies": {
-    "cmless": "^3.1.0",
+    "cmless": "^3.2.0",
     "icon-gen": "^2.0.0"
   },
   "browserslist": {
