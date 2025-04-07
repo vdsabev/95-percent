@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "npx netlify dev",
+    "start": "netlify dev",
     "build": "npm run build.favicon && cmless build",
     "build.favicon": "icon-gen -i public/favicon.svg -o public -r --favicon name=favicon ico=16,24,32,64 sizes=192,512"
   },

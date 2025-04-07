@@ -7,5 +7,10 @@ import { apiBaseUrl } from './settings'
 export const getQuestions = () => {
   return http
     .get(`${apiBaseUrl}/questions`)
-    .then((response) => response.questions)
+    .then((response) =>
+      response.questions.map((question, index) => ({
+        id: index.toString(),
+        ...question,
+      }))
+    )
 }
